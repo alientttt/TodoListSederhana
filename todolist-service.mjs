@@ -15,9 +15,17 @@ export class TodoListService {
   }
 
   getTodoList(req, res) {
-    res.writeHead(200, this.getJsonTodoList(), {
-      "Content-Type": "application/json",
+    res.write(this.getJsonTodoList());
+    res.end();
+  }
+
+  createTodo(req, res) {
+    req.on("data", (data) => {
+      const body = JSON.parse(data.toString());
+      this.todolist.push(body.todo);
+
+      res.write(this.getJsonTodoList());
+      res.end();
     });
-    res.end("Berhasil");
   }
 }
