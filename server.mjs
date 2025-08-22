@@ -9,6 +9,10 @@ const server = createServer((req, res) => {
     service.getTodoList(req, res);
   } else if (req.method === "POST") {
     service.createTodo(req, res);
+  } else if (req.method === "PUT") {
+    service.updateTodo(req, res);
+  } else if (req.method === "DELETE") {
+    service.deleteTodo(req, res);
   }
 });
 

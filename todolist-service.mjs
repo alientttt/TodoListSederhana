@@ -1,5 +1,11 @@
 export class TodoListService {
-  todolist = ["Membaca al quran", "Berenang", "Mencuci sepatu"];
+  todolist = [
+    "Membaca al quran",
+    "Berenang",
+    "Mencuci sepatu",
+    "Bermain Bola",
+    "Memandikan kucing",
+  ];
 
   getJsonTodoList() {
     return JSON.stringify({
@@ -24,6 +30,26 @@ export class TodoListService {
       const body = JSON.parse(data.toString());
       this.todolist.push(body.todo);
 
+      res.write(this.getJsonTodoList());
+      res.end();
+    });
+  }
+
+  updateTodo(req, res) {
+    req.on("data", (data) => {
+      const body = JSON.parse(data.toString());
+      if (this.todolist[body.id]) {
+        this.todolist[body.id] = body.todo;
+      }
+      res.write(this.getJsonTodoList());
+      res.end();
+    });
+  }
+
+  deleteTodo(req, res) {
+    req.on("data", (data) => {
+      const body = JSON.parse(data.toString());
+      this.todolist.splice(body.id, 1);
       res.write(this.getJsonTodoList());
       res.end();
     });
